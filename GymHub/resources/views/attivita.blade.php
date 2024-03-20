@@ -27,8 +27,25 @@ var_dump($attivita)
             <h5 class="card-title">Nome Attività :{{$value->name}}</h5>
             <p class="card-text">ID Attività :{{$value->id}}</p>
             <p class="card-text">Descrizione attivita :{{$value->description}}</p>
-            <p class="card-text">Attivo nella nostra palestra dal : {{$value->created_at}}</p>
+            <p class="card-text">Attivo nella nostra palestra dal : {{$value->created_at->format('Y-m-d')}}</p></p>
+
+            @foreach ($value->oraris as $orariItem)
+            <p class="card-text">Orari dal Lunedì al Venerdì : {{$orariItem->orario_inizio}} - {{$orariItem->orario_fine}}</p>
+            
+            @endforeach
+
+            @foreach ($value->prenotazionis as $prenotazioni)
+            <p class="card-text">Prenotazioni : {{$prenotazioni->id}}</p>
            
+            @endforeach
+
+            @foreach ($value->users as $user)
+            <p class="card-text">Iscritti prenotati : {{$user->name}}</p>
+           
+            @endforeach
+           
+
+            
         </div>
     </div>
 </div>
