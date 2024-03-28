@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class attivita extends Model
 {
     use HasFactory;
+    protected $fillable = ['name', 'description', 'start_date', 'end_date'];
+
 
     public function oraris(): HasMany {
         return $this->hasMany(orari::class);

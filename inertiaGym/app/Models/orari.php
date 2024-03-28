@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class orari extends Model
 {
     use HasFactory;
+    protected $fillable = ['orario_inizio', 'orario_fine'];
+
 
     public function prenotazionis(): HasMany {
         return $this->hasMany(prenotazioni::class);

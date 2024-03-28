@@ -20,7 +20,12 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "@inertiajs/inertia": "^0.11.1",
+        "@inertiajs/inertia-react": "^0.8.1",
         "bootstrap": "^5.3.3",
-        "react-bootstrap": "^2.10.2"
+        "react-bootstrap": "^2.10.2",
+        "react-bootstrap-icons": "^1.11.3",
+        "react-slick": "^0.30.2",
+        "slick-carousel": "^1.8.1"
     }
 }

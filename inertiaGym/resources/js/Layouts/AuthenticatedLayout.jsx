@@ -4,10 +4,41 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-
+    function ImageSlider() {
+        // Opzioni di configurazione per react-slick
+        const settings = {
+          dots: true, // Mostra i punti di navigazione sotto lo slider
+          infinite: true, // Fa sì che lo slider ricominci da capo quando raggiunge la fine
+          speed: 3000, // Velocità di transizione tra le immagini
+          slidesToShow: 1, // Numero di slide da mostrare alla volta
+          slidesToScroll: 1, // Numero di slide da scorrere sul click
+          autoplay: true, // Abilita l'autoplay delle slide
+          autoplaySpeed: 2000, // Intervallo di tempo prima del cambio slide in autoplay
+        };
+      
+        return (
+            
+            <Slider {...settings} className='mt-5'>
+            <div className='d-flex justify-content-center'>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/React_Logo_SVG.svg/1200px-React_Logo_SVG.svg.png" className='imgCarousel' alt="Immagine 1" />
+            </div>
+            <div className='d-flex justify-content-center'>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1200px-Laravel.svg.png" className='imgCarousel' alt="Immagine 2" />
+            </div>
+            <div className='d-flex justify-content-center'>
+              <img src="https://ayso32m5n.cloudimg.io/v7/https://web-id.fr/storage/articles%2Finertia-bg%201.png?width=500" className='imgCarousel rounded-circle' alt="Immagine 3" />
+            </div>
+          </Slider>
+          
+        )
+      }
     return (
         <div className="min-h-screen bg-gray-100">
             <nav className="bg-white border-b border-gray-100">
@@ -29,6 +60,11 @@ export default function Authenticated({ user, header, children }) {
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink href={route('attivita.index')} active={route().current('attivita')}>
                                     Attivita
+                                </NavLink>
+                            </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink href={route('prenotazioni.index')} active={route().current('preonotazioni')}>
+                                    Le tue prenotazioni
                                 </NavLink>
                             </div>
                         </div>
@@ -120,9 +156,12 @@ export default function Authenticated({ user, header, children }) {
             </nav>
 
             {header && (
+                <>
                 <header className="bg-white shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
+                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 ">{header}</div>
                 </header>
+                <ImageSlider/>
+                </>
             )}
 
             <main>{children}</main>

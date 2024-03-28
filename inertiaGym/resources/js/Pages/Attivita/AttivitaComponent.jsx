@@ -1,76 +1,81 @@
 import React from 'react';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import Card from "react-bootstrap/Card";
+import { Card, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link } from '@inertiajs/react';
-import PrimaryButton from '@/Components/PrimaryButton';
+import CarouselSlider from '@/Layouts/CarouselSlider';
+import { Trash2Fill } from 'react-bootstrap-icons';
+import { Inertia } from '@inertiajs/inertia';
 
-export default function AttivitaComponent({ attivita, user, auth}) {
 
-    console.log(attivita);
-    console.log(user.name);
-    console.log(auth); 
- 
+export default function AttivitaComponent({ attivita, user }) {
 
-  return (
+    function destroy(id) {
+        if (confirm('Are you sure you want to delete this contact?')) {
+          Inertia.delete(route('attivita.destroy', id));
+        }
+      }
+  
+    return (
+        
+        <AuthenticatedLayout user={user}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Attività</h2>}
+        >
+            <Container>
+                <CarouselSlider />
+                <Row className='my-2'>
+                    <Col>
+                        <Link method="get" href='/attivita/create' className='d-flex justify-content-center my-3'>
+                            <Button variant="primary">Crea Nuova Attività</Button>
+                        </Link>
+                    </Col>
+                </Row>
 
-    <AuthenticatedLayout user={user}
-    header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Attivita</h2>}
-    >
-         
-         <div className="container">
-            <div className='mx-2 my-2'>
-                <Link method="get" href='/attivita/create' as="button" type="button" ><PrimaryButton >Crea Nuova Attività</PrimaryButton></Link> 
-                </div>
-                
-                <div  class="row row-cols-1 row-cols-md-3 g-4">
+                <Row xs={1} md={3} className="g-4">
                     {attivita.map((attivita) => (
-                        <div key={attivita.id} class="col">
-                            <Card  style={{ width: "18rem" }}>
+                        <Col key={attivita.id}>
+                            <Card style={{ width: '18rem' }}>
                                 <Card.Img
                                     variant="top"
                                     src="https://www.teahub.io/photos/full/28-284379_photo-wallpaper-man-workout-gym-working-gym-workout.jpg"
                                 />
                                 <Card.Body>
-                                    <div class="row">
-                                        <Card.Title>{attivita.title}</Card.Title>
-                                        <Card.Text>
-                                            {attivita.description}
-                                        </Card.Text>
-                                        <Card.Text>
-                                            {attivita.oraris.map((orari) => (
-                                                <li key={orari.id}>
-                                                    {orari.name}
-                                                </li>
-                                            ))}
-                                        </Card.Text>
-                                        <Card.Text>{attivita.pages}</Card.Text>
-                                        <Card.Text>{attivita.numcopies}</Card.Text>
-                                        <Card.Text>
-                                            {attivita.prenotazionis.map(
-                                                (prenotazioni) => (
-                                                    <li key={prenotazioni.id}>
-                                                        {prenotazioni.stato}
-                                                    </li>
-                                                )
-                                            )}
-                                        </Card.Text>
-                                        <Card.Text>
-                                            {attivita.users.map((user) => (
-                                                <li key={user.id}>
-                                                    {user.name}
-                                                </li>
-                                            ))}
-                                        </Card.Text>
-                                        <div className='mx-2 my-2'>
-                                        <PrimaryButton > Go somewhere</PrimaryButton>
-                                        </div>
+                                    <Card.Title>{attivita.name}</Card.Title>
+                                    <Card.Text>{attivita.description}</Card.Text>
+                                    {attivita.oraris && attivita.oraris.map((orari) => (
+                                        <Card.Text key={orari.id}>{orari.orario_inizio}-{orari.orario_fine}</Card.Text>
+                                    ))}
+
+                                    {user.attivita_id !== null && user.attivita_id === attivita.id ? (
+                                        <button className='btn btn-secondary' disabled>Già Prenotato</button>
+                                    ) : (
+                                        <p></p>
+                                    )}
+
+
+                                    <div className='d-flex my-2'>
+
+                                        {user.is_admin === 1 ? (
+                                            <button
+                                                type="button"
+                                                className='btn btn-small btn-danger mx-2'
+                                                onClick={() => destroy(attivita.id)}
+                                            >
+                                                <Trash2Fill className='text-black' />
+                                            </button>
+                                        ) : (
+                                            <p></p>
+                                        )}
+
+
+
+                                        <Link href={`/attivita/${attivita.id}`} as="button" type="button" className='btn btn-primary mx-2' >Dettagli</Link>
                                     </div>
                                 </Card.Body>
                             </Card>
-                        </div>
+                        </Col>
                     ))}
-                </div>
-            </div>
-    </AuthenticatedLayout>
-  )
+                </Row>
+            </Container>
+        </AuthenticatedLayout>
+    );
 }
