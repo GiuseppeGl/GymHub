@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\attivita;
+use App\Models\orari;
 use App\Models\prenotazioni;
 use App\Http\Requests\StoreprenotazioniRequest;
 use App\Http\Requests\UpdateprenotazioniRequest;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Tests\Feature\ExampleTest;
 
 class PrenotazioniController extends Controller
 {
@@ -16,7 +18,7 @@ class PrenotazioniController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Prenotazioni/PrenotazioniComponent', ['attivita' => attivita::with('oraris', 'prenotazionis', 'users')->get(), 'user' => Auth::user() ]);
+        return Inertia::render('Prenotazioni/PrenotazioniComponent', ['attivita' => attivita::with('oraris', 'prenotazionis', 'users')->get(), 'user' => Auth::user(),'prenotazioni' => prenotazioni::all(),'orari' => orari::all() ]);
 
         
     }
@@ -89,8 +91,12 @@ class PrenotazioniController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(prenotazioni $prenotazioni)
+    public function destroy($id)
     {
-        //
+        
+        $prenotazione = prenotazioni::findOrFail($id);
+        $prenotazione->delete();
+        return to_route('prenotazioni.index');
+
     }
 }

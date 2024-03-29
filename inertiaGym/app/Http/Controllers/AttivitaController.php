@@ -20,7 +20,7 @@ class AttivitaController extends Controller
     public function index()
     {
         //
-        return Inertia::render('Attivita/AttivitaComponent', ['attivita' => attivita::with('oraris', 'prenotazionis', 'users')->get(), 'user' => Auth::user() ]);
+        return Inertia::render('Attivita/AttivitaComponent', ['attivita' => attivita::with('oraris', 'prenotazionis', 'users')->get(), 'user' => Auth::user(),'success' => 'Attività eliminata correttamente.','error' => 'Si è verificato un errore!']);
     }
 
     /**
@@ -55,13 +55,14 @@ class AttivitaController extends Controller
      * Display the specified resource.
      */
 
-   public function show(attivita $attivita,$id)
+    public function show(attivita $attivita, $id)
     {
-        
+
         $attivita = Attivita::find($id)->load(['oraris', 'prenotazionis']);
-        
+
         return Inertia::render('Attivita/DetailAttivitaComponent', [
-            'attivita' => $attivita, 'user' => Auth::user(),
+            'attivita' => $attivita,
+            'user' => Auth::user(),
         ]);
     }
 
@@ -87,12 +88,12 @@ class AttivitaController extends Controller
      */
     public function destroy($id)
     {
-        $attivita = Attivita::findOrFail($id);
-        $attivita->delete();
-        return to_route('attivita.index')->with('success', 'Attività eliminata correttamente.');
         
-    
-       /*  return Redirect::back()->with('success', 'Attività eliminata correttamente.'); */
+             $attivita = Attivita::findOrFail($id);
+             $attivita->delete();
+             return to_route('attivita.index');
+
+        /*  return Redirect::back()->with('success', 'Attività eliminata correttamente.'); */
     }
-    
+
 }

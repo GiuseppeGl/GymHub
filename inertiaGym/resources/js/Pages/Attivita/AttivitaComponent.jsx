@@ -1,6 +1,6 @@
 import React from 'react';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Card, Button, Container, Row, Col } from 'react-bootstrap';
+import { Card, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { Link } from '@inertiajs/react';
 import CarouselSlider from '@/Layouts/CarouselSlider';
 import { Trash2Fill } from 'react-bootstrap-icons';
@@ -8,19 +8,26 @@ import { Inertia } from '@inertiajs/inertia';
 import { router } from '@inertiajs/react'
 
 
-export default function AttivitaComponent({ attivita, user }) {
+export default function AttivitaComponent({ attivita, user}) {
+
+    const [message, setMessage] = React.useState(null);
 
     function destroy(id) {
         if (confirm('Are you sure you want to delete this contact?')) {
-          Inertia.delete(route('attivita.destroy', id));
-          router.reload({ only: ['attivita'] })
-
-         
+            Inertia.delete(route('attivita.destroy', id));
+            router.reload({ only: ['attivita'] })
+            setMessage("Cancellazione avvenuta con successo.")
+            setTimeout(() => setMessage(null), 5000);
+        } else {
+            setMessage("Errore nella cancellazione.");
+                setTimeout(() => setMessage(null), 5000);
         }
-      }
-  
+    }
+
+
+
     return (
-        
+
         <AuthenticatedLayout user={user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Attività</h2>}
         >
@@ -33,7 +40,7 @@ export default function AttivitaComponent({ attivita, user }) {
                         </Link>
                     </Col>
                 </Row>
-
+                {message && <div className="alert alert-success">{message}</div>}
                 <Row xs={1} md={3} className="g-4">
                     {attivita.map((attivita) => (
                         <Col key={attivita.id}>
