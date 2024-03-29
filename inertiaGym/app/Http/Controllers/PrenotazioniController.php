@@ -16,6 +16,8 @@ class PrenotazioniController extends Controller
      */
     public function index()
     {
+        return Inertia::render('Prenotazioni/PrenotazioniComponent', ['attivita' => attivita::with('oraris', 'prenotazionis', 'users')->get(), 'user' => Auth::user() ]);
+
         
     }
 
