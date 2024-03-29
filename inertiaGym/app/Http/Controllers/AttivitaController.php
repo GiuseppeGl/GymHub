@@ -89,7 +89,10 @@ class AttivitaController extends Controller
     {
         $attivita = Attivita::findOrFail($id);
         $attivita->delete();
+        return to_route('attivita.index')->with('success', 'Attività eliminata correttamente.');
+        
     
-        return Redirect::back()->with('success', 'Attività eliminata correttamente.');
+       /*  return Redirect::back()->with('success', 'Attività eliminata correttamente.'); */
     }
+    
 }

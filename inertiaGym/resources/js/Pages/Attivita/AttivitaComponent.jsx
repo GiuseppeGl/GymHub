@@ -5,6 +5,8 @@ import { Link } from '@inertiajs/react';
 import CarouselSlider from '@/Layouts/CarouselSlider';
 import { Trash2Fill } from 'react-bootstrap-icons';
 import { Inertia } from '@inertiajs/inertia';
+import { router } from '@inertiajs/react'
+
 
 
 export default function AttivitaComponent({ attivita, user }) {
@@ -12,6 +14,9 @@ export default function AttivitaComponent({ attivita, user }) {
     function destroy(id) {
         if (confirm('Are you sure you want to delete this contact?')) {
           Inertia.delete(route('attivita.destroy', id));
+          router.reload({ only: ['attivita'] })
+
+         
         }
       }
   
