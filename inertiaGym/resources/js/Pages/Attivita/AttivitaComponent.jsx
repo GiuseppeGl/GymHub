@@ -8,7 +8,6 @@ import { Inertia } from '@inertiajs/inertia';
 import { router } from '@inertiajs/react'
 
 
-
 export default function AttivitaComponent({ attivita, user }) {
 
     function destroy(id) {
